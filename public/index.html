@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title></title>
+        <title>CHAT APP</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
         <p>Welcome to the Chat App </p>
+
+        <script src="./socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            //Fire this even Whenever server is UP or reconnected 
+            socket.on('connect',()=>{
+                console.log('Connected to Server');
+            });
+
+            //Fire this event when server goes down or connection drops 
+            socket.on('disconnect',()=>{
+               console.log('disconnected from server'); 
+            });
+        </script>
     </body>
 </html>
