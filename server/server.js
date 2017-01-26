@@ -20,7 +20,19 @@ io.on('connection',(socket)=>{
     //whenver client disconnects
     socket.on('disconnect',()=>{
         console.log('Client was disconnected');
-    })
+    });
+
+
+    //receive a message from CLIENT 
+    socket.on('createMessage',(message)=>{
+        console.log(message);
+    });
+
+    //send a message to client
+    socket.emit('newMessage',{
+        'from':'sample.com',
+        'text':"some message"
+    });
 })
 
 
