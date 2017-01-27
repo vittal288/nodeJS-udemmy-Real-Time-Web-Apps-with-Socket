@@ -17,6 +17,16 @@ var io = socketIO(server);
 io.on('connection',(socket)=>{
     console.log('Client is connected');
 
+    socket.emit('newMessage',{
+        from:'Admin',
+        text:"welcome to Chat Room",
+        createdAt:new Date().getTime()
+    });
+    socket.broadcast.emit('newMessage',{
+        from:'Admin',
+        text:'New User is joined',
+        createdAt:new Date().getTime()
+    });
     //receive a message from CLIENT 
     socket.on('createMessage',(message)=>{
         // //this events emits the message to all users who connected this room chat 
@@ -25,6 +35,13 @@ io.on('connection',(socket)=>{
             text:message.text,
             createdAt:new Date().getTime()
         });
+
+        //send to evverybody but specefic to one , everyone can see the data but expect who sent that
+        // socket.broadcast.emit('newMessage',{
+        //     form:message.from,
+        //     text:message.text,
+        //     createdAt:new Date().getTime()
+        // });
     });
 
     //whenver client disconnects
