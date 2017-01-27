@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
+const {generateMessage} = require('./utils/message');
 //------------------------------------------
 var app = express();
 var server = http.createServer(app);
@@ -18,26 +19,14 @@ io.on('connection',(socket)=>{
     console.log('Client is connected');
 
     //gree to the user who joined the chat room 
-    socket.emit('newMessage',{
-        from:'Admin',
-        text:"welcome to Chat Room",
-        createdAt:new Date().getTime()
-    });
+    socket.emit('newMessage',generateMessage('Admin','welcome to Chat Room'));
 
     //send to all expect who has joined  
-    socket.broadcast.emit('newMessage',{
-        from:'Admin',
-        text:'New User is joined',
-        createdAt:new Date().getTime()
-    });
+    socket.broadcast.emit('newMessage',generateMessage('Admin','New User is joined'));
     //receive a message from CLIENT 
     socket.on('createMessage',(message)=>{
         // //this events emits the message to all users who connected this room chat 
-        io.emit('newMessage',{
-            from:message.from,
-            text:message.text,
-            createdAt:new Date().getTime()
-        });
+        io.emit('newMessage',generateMessage(message.from,message.text));
 
         //send to evverybody but specefic to one , everyone can see the data but expect who sent that
         // socket.broadcast.emit('newMessage',{
