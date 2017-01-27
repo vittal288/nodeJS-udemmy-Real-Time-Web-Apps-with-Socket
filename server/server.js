@@ -17,23 +17,21 @@ var io = socketIO(server);
 io.on('connection',(socket)=>{
     console.log('Client is connected');
 
+    //receive a message from CLIENT 
+    socket.on('createMessage',(message)=>{
+        // //this events emits the message to all users who connected this room chat 
+        io.emit('newMessage',{
+            from:message.from,
+            text:message.text,
+            createdAt:new Date().getTime()
+        });
+    });
+
     //whenver client disconnects
     socket.on('disconnect',()=>{
         console.log('Client was disconnected');
     });
-
-
-    //receive a message from CLIENT 
-    socket.on('createMessage',(message)=>{
-        console.log(message);
-    });
-
-    //send a message to client
-    socket.emit('newMessage',{
-        'from':'sample.com',
-        'text':"some message"
-    });
-})
+});
 
 
 
