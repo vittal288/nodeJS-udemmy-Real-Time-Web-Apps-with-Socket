@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha server/**/*.spec.js",
+    "test-watch": "nodemon -exec 'npm test'",
+    "code-cov": "nyc --reporter=lcov --reporter=text-lcov npm test"
   },
   "engines": {
     "node": "6.8.0"
@@ -15,5 +17,16 @@
   "dependencies": {
     "express": "^4.14.0",
     "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.0.2",
+    "nyc": "^10.1.2"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "build"
+    ]
   }
 }

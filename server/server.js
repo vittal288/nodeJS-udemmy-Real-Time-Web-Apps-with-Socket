@@ -17,11 +17,14 @@ var io = socketIO(server);
 io.on('connection',(socket)=>{
     console.log('Client is connected');
 
+    //gree to the user who joined the chat room 
     socket.emit('newMessage',{
         from:'Admin',
         text:"welcome to Chat Room",
         createdAt:new Date().getTime()
     });
+
+    //send to all expect who has joined  
     socket.broadcast.emit('newMessage',{
         from:'Admin',
         text:'New User is joined',
